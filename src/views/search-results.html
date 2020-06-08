@@ -1,53 +1,47 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Resultado da pesquisa</title>
+{% extends "layout.html" %}
 
-		<link href="https://fonts.googleapis.com/css2?family=Roboto&family=Ubuntu:wght@700&display=swap" rel="stylesheet">
-		<link rel="stylesheet" href="/styles/main.css">
-		<link rel="stylesheet" href="/styles/search-results.css">
-		<link rel="stylesheet" href="/styles/responsive.css">
+{% set pageId = "page-search-results" %}
 
-	</head>
-	<body>
+{% block title %}
+	<title>Resultado da pesquisa</title>
+{% endblock title %}
 
-		<div id="page-search-results">
-			<header>
-				<img src="/assets/logo.svg" alt="Logomarca"/>
-				<a href="/"><span></span>Voltar para home</a>
-			</header>
+{% block styles %}
+	<link rel="stylesheet" href="/styles/search-results.css">
+{% endblock styles %}
 
-			<main>
-				<h4><strong>2 pontos</strong> encontrados</h4>
+{% block content %}
+	{% include "partials/page-header.html" %}
 
-				<div class="cards">
-					<div class="card">
-						<img src="https://images.unsplash.com/photo-1518792528501-352f829886dc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80" alt="Colectoria">
-						<h1>Colectoria</h1>
-						<h3>Resíduos eletrônicos, Lâmpadas</h3>
-						<p>
-							Rio de Sul, Santa Catarina <br/>
-							Guilherme Gembella, Jardim América <br/>
-							Número 260
-						</p>
-					</div>
-					<div class="card">
-						<img src="https://images.unsplash.com/photo-1528323273322-d81458248d40?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1401&q=80" alt="Papersider">
-						<h1>Papersider</h1>
-						<h3>Papéis e Papelão</h3>
-						<p>
-							Rio de Sul, Santa Catarina <br/>
-							Guilherme Gembella, Jardim América <br/>
-							Número 260
-						</p>
-					</div>
-					
+	<main>
+		{% if total > 0 %}
+			<h4><strong>{{ total }} pontos</strong> encontrados</h4>
+	
+			<div class="cards">
+	
+				{% for place in places %}
+				<div class="card">
+					<img src={{ place.image }}>
+					<h1>{{ place.name }}</h1>
+					<h3>{{ place.items }}</h3>
+					<p>
+						{{ place.city }}, {{ place.state }} <br/>
+						{{ place.address }} <br/>
+						{{ place.address2}}
+					</p>
 				</div>
-			</main>
-		</div>
-		<script src="/scripts/create-point.js"></script>
+				{% endfor %}
+				
+			</div>
+		{% else %}
+			<h4><strong>0 pontos</strong> encontrados</h4>	
+		{% endif %}
+	</main>
+{% endblock content %}
+
+{% block scripts %}
+	<script src="/scripts/create-point.js"></script>
+{% endblock scripts %}
 
 	</body>
 </html>
